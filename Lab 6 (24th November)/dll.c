@@ -1,38 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Node {
+typedef struct node {
     int data;
-    struct Node* prev;
-    struct Node* next;
-} Node;
+    struct node* prev;
+    struct node* next;
+} node;
 
-Node* createNode(int data) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
-    if (!newNode) { 
+node* createnode(int data) {
+    node* newnode = (node*)malloc(sizeof(node));
+    if (!newnode) { 
         printf("Memory allocation failed\n");
         exit(1); 
     }
-    newNode->data = data;
-    newNode->prev = newNode->next = NULL;
-    return newNode;
+    newnode->data = data;
+    newnode->prev = newnode->next = NULL;
+    return newnode;
 }
 
-void insertEnd(Node** head, int data) {
-    Node* newNode = createNode(data);
+void insertEnd(node** head, int data) {
+    node* newnode = createnode(data);
     if (*head == NULL) {
-        *head = newNode;
+        *head = newnode;
         return;
     }
-    Node* temp = *head;
+    node* temp = *head;
     while (temp->next != NULL) 
         temp = temp->next;
-    temp->next = newNode;
-    newNode->prev = temp;
+    temp->next = newnode;
+    newnode->prev = temp;
 }
 
-void displayList(Node* head) {
-    Node* temp = head;
+void displayList(node* head) {
+    node* temp = head;
     if (!temp) {
         printf("List is empty.\n");
         return;
@@ -45,8 +45,8 @@ void displayList(Node* head) {
     printf("\n");
 }
 
-Node* findNode(Node* head, int value) {
-    Node* temp = head;
+node* findnode(node* head, int value) {
+    node* temp = head;
     while (temp) {
         if (temp->data == value)
             return temp;
@@ -55,41 +55,41 @@ Node* findNode(Node* head, int value) {
     return NULL;
 }
 
-void insertLeft(Node** head, int target, int data) {
-    Node* targetNode = findNode(*head, target);
-    if (!targetNode) {
-        printf("Node with value %d not found.\n", target);
+void insertLeft(node** head, int target, int data) {
+    node* targetnode = findnode(*head, target);
+    if (!targetnode) {
+        printf("node with value %d not found.\n", target);
         return;
     }
-    Node* newNode = createNode(data);
-    newNode->next = targetNode;
-    newNode->prev = targetNode->prev;
-    if (targetNode->prev)
-        targetNode->prev->next = newNode;
+    node* newnode = createnode(data);
+    newnode->next = targetnode;
+    newnode->prev = targetnode->prev;
+    if (targetnode->prev)
+        targetnode->prev->next = newnode;
     else
-        *head = newNode;
-    targetNode->prev = newNode;
+        *head = newnode;
+    targetnode->prev = newnode;
 }
 
-void deleteNode(Node** head, int value) {
-    Node* targetNode = findNode(*head, value);
-    if (!targetNode) {
-        printf("Node with value %d not found.\n", value);
+void deletenode(node** head, int value) {
+    node* targetnode = findnode(*head, value);
+    if (!targetnode) {
+        printf("node with value %d not found.\n", value);
         return;
     }
-    if (targetNode->prev)
-        targetNode->prev->next = targetNode->next;
+    if (targetnode->prev)
+        targetnode->prev->next = targetnode->next;
     else
-        *head = targetNode->next;
-    if (targetNode->next)
-        targetNode->next->prev = targetNode->prev;
+        *head = targetnode->next;
+    if (targetnode->next)
+        targetnode->next->prev = targetnode->prev;
 
-    free(targetNode);
+    free(targetnode);
     printf("Deleted node with value %d.\n", value);
 }
 
 int main() {
-    Node* head = NULL;
+    node* head = NULL;
     int choice, value, target;
     while (1) {
         printf("\nMenu:\n");
@@ -116,7 +116,7 @@ int main() {
             case 3:
                 printf("Enter value to delete: ");
                 scanf("%d", &value);
-                deleteNode(&head, value);
+                deletenode(&head, value);
                 break;
             case 4:
                 displayList(head);
